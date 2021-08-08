@@ -23,20 +23,36 @@ function SettingsScreen() {
 const Tab = createBottomTabNavigator();
 
 export default function App() {
+  const components = [
+    {
+      name: 'Home',
+      component: HomeScreen,
+      icon: (focused) => focused ? 'ios-information-circle' : 'ios-information-circle-outline'
+    },
+    {
+      name: 'Settings',
+      component: SettingsScreen,
+      icon: () => 'ios-list'
+    }
+  ];
+
+  const getIcon = (route, focused, components) => {
+    for (let k in components) {
+      if (components[k].name === route) {
+        if (typeof components[k].icon === 'function') {
+          return components[k].icon(focused)
+        }
+        return components[k].icon;
+      }
+    }
+  }
+
   return (
     <NavigationContainer>
       <Tab.Navigator
         screenOptions={({ route }) => ({
           tabBarIcon: ({ focused, color, size }) => {
-            let iconName;
-
-            if (route.name === 'Home') {
-              iconName = focused
-                ? 'ios-information-circle'
-                : 'ios-information-circle-outline';
-            } else if (route.name === 'Settings') {
-              iconName = 'ios-list';
-            }
+            let iconName = getIcon(route.name, focused, components);
 
             // You can return any component that you like here!
             return <Ionicons name={iconName} size={size} color={color} />;
@@ -45,8 +61,9 @@ export default function App() {
           tabBarInactiveTintColor: 'gray',
         })}
       >
-        <Tab.Screen name="Home" component={HomeScreen} />
-        <Tab.Screen name="Settings" component={SettingsScreen} />
+        {components.map((row, index) => {
+          return <Tab.Screen key={index} name={row.name} component={row.component} />
+        })}
       </Tab.Navigator>
     </NavigationContainer>
   );

@@ -27,7 +27,8 @@
     "react-native-unimodules": "~0.14.5",
     "react-native-vector-icons": "^8.1.0",
     "react-native-web": "~0.13.12",
-    "undefined": "@expo/vector-icons/Ionicons"
+    "undefined": "@expo/vector-icons/Ionicons",
+    "expo-file-system": "~11.1.3"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0"
